@@ -1,0 +1,263 @@
+<!doctype html>
+<html lang="mr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Kisan Saathi</title>
+<style>
+:root{--bg:#f6f3ea;--card:#fff;--ink:#1f2a1f;--muted:#5b665b;--line:#ddd6c4;--brand:#2f6b2f;--brand-ink:#fff;
+--red:#b3261e;--red-bg:#fde8e6;--amber:#8a5a00;--amber-bg:#fff3d6;--blue:#1d4f8a;--blue-bg:#e3eefb}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#141a14;--card:#1d241d;--ink:#e8efe6;--muted:#a3aea1;--line:#334033;--brand:#6fb56f;--brand-ink:#0d150d;
+--red:#ff8a80;--red-bg:#3a1714;--amber:#ffcc66;--amber-bg:#352a10;--blue:#8fbaf0;--blue-bg:#13263d}}
+:root[data-theme="dark"]{--bg:#141a14;--card:#1d241d;--ink:#e8efe6;--muted:#a3aea1;--line:#334033;--brand:#6fb56f;--brand-ink:#0d150d;
+--red:#ff8a80;--red-bg:#3a1714;--amber:#ffcc66;--amber-bg:#352a10;--blue:#8fbaf0;--blue-bg:#13263d}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.5 system-ui,-apple-system,"Noto Sans Devanagari","Segoe UI",sans-serif}
+.wrap{max-width:760px;margin:0 auto;padding:16px}
+header{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin:8px 0 16px}
+h1{margin:0;font-size:1.6rem;color:var(--brand)}
+.tag{margin:2px 0 0;color:var(--muted);font-size:.95rem}
+.langs button{border:1px solid var(--line);background:var(--card);color:var(--ink);padding:6px 12px;border-radius:999px;cursor:pointer;font:inherit}
+.langs button.on{background:var(--brand);color:var(--brand-ink);border-color:var(--brand)}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px;margin-bottom:16px}
+h2{font-size:1.15rem;margin:0 0 12px}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+@media (max-width:560px){.grid{grid-template-columns:1fr}}
+label{display:block;font-size:.9rem;color:var(--muted);margin-bottom:4px}
+input,select{width:100%;padding:10px;border:1px solid var(--line);border-radius:10px;background:var(--bg);color:var(--ink);font:inherit}
+.full{grid-column:1/-1}
+.btn{display:inline-block;border:0;background:var(--brand);color:var(--brand-ink);padding:12px 18px;border-radius:10px;font:inherit;font-weight:600;cursor:pointer;text-decoration:none}
+.btn.ghost{background:transparent;color:var(--brand);border:1px solid var(--brand)}
+.row{display:flex;gap:10px;flex-wrap:wrap;margin-top:12px}
+.banner{border-radius:14px;padding:16px;margin-bottom:16px;font-size:1.05rem}
+.banner b{display:block;font-size:1.25rem;margin-bottom:4px}
+.urgent{background:var(--red-bg);color:var(--red);border:2px solid var(--red)}
+.late{background:var(--amber-bg);color:var(--amber);border:2px solid var(--amber)}
+.area{background:var(--blue-bg);color:var(--blue);border:2px solid var(--blue)}
+ul{margin:0;padding-left:20px}
+li{margin:4px 0}
+.check li{list-style:none;margin-left:-20px}
+.check input{width:auto;margin-right:8px}
+pre{white-space:pre-wrap;background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:12px;font:inherit;margin:0}
+.foot{background:var(--amber-bg);color:var(--amber);border-radius:10px;padding:12px;font-weight:600}
+.hidden{display:none}
+.err{color:var(--red);margin-top:8px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div>
+      <h1>🌾 Kisan Saathi</h1>
+      <p class="tag" data-t="tagline"></p>
+    </div>
+    <div class="langs">
+      <button data-lang="mr">मराठी</button>
+      <button data-lang="hi">हिंदी</button>
+      <button data-lang="en">English</button>
+    </div>
+  </header>
+
+  <form id="f" class="card">
+    <h2 data-t="s1"></h2>
+    <div class="grid">
+      <div><label data-t="name"></label><input id="name" required></div>
+      <div><label data-t="mobile"></label><input id="mobile" inputmode="numeric" maxlength="10"></div>
+      <div><label data-t="state"></label><input id="state" value="Maharashtra"></div>
+      <div><label data-t="district"></label>
+        <select id="district">
+          <option>Beed</option><option>Chhatrapati Sambhajinagar</option><option>Jalna</option><option>Latur</option>
+          <option>Dharashiv</option><option>Nanded</option><option>Parbhani</option><option>Hingoli</option><option value="other" data-t="other"></option>
+        </select></div>
+      <div><label data-t="village"></label><input id="village"></div>
+      <div><label data-t="survey"></label><input id="survey"></div>
+      <div><label data-t="crop"></label>
+        <select id="crop"></select></div>
+      <div><label data-t="acres"></label><input id="acres" type="number" min="0" step="0.1" required></div>
+      <div class="full"><label data-t="event"></label>
+        <select id="event"></select></div>
+      <div><label data-t="date"></label><input id="date" type="datetime-local" required></div>
+      <div><label data-t="pmfby"></label>
+        <select id="pmfby"><option value="yes" data-t="yes"></option><option value="no" data-t="no"></option><option value="unsure" data-t="unsure"></option></select></div>
+      <div class="full"><label data-t="policy"></label><input id="policy"></div>
+    </div>
+    <div class="row"><button class="btn" data-t="submit"></button>
+      <button type="button" class="btn ghost" id="demo" data-t="demo"></button></div>
+    <div id="err" class="err"></div>
+  </form>
+
+  <section id="out" class="hidden">
+    <div id="banner" class="banner"></div>
+    <div class="card"><h2 data-t="docs"></h2><ul class="check" id="docs"></ul></div>
+    <div class="card"><h2 data-t="photos"></h2><ul id="photos"></ul></div>
+    <div class="card"><h2 data-t="msg"></h2><pre id="msg"></pre>
+      <div class="row"><button class="btn" id="copy" data-t="copy"></button>
+        <a class="btn ghost" id="wa" target="_blank" rel="noopener" data-t="wa"></a></div></div>
+    <div class="card"><h2 data-t="next"></h2><ul id="next"></ul></div>
+    <p class="foot" data-t="confirm"></p>
+  </section>
+</div>
+
+<script>
+const T = {
+en:{tagline:"Crop-loss claim helper for Marathwada farmers",s1:"Your details",name:"Farmer name",mobile:"Mobile number",state:"State",district:"District",other:"Other",
+village:"Taluka / village",survey:"Survey / gat number",crop:"Crop",acres:"Acres affected",event:"What happened?",date:"When did it happen?",
+pmfby:"Enrolled in PMFBY crop insurance?",yes:"Yes",no:"No",unsure:"Not sure",policy:"Policy / application number (if you have it)",
+submit:"Make my claim kit",demo:"Fill demo",need:"Please fill name, acres and date.",future:"Date is in the future. Please check.",
+docs:"1. Documents to keep ready",photos:"2. How to take photos",msg:"3. Ready-to-send message",copy:"Copy message",copied:"Copied ✓",wa:"Send on WhatsApp",
+next:"4. What happens next",confirm:"⚠️ Compensation amounts and rules vary by state, crop, season and year. Nothing here is a promise of payment. Please confirm everything with your district / taluka agriculture office.",
+hrs:"hours since the event",
+urgentT:"URGENT — report your loss NOW",urgentB:h=>`Only ${h} hours left in the 72-hour window. Call 14447 or use the Crop Insurance app today. Upload geo-tagged photos and write down the docket number.`,
+lateT:"The 72-hour window has passed",lateB:h=>`It has been about ${h} hours. Still call 14447 / use the Crop Insurance app and ask if a late report can be accepted. Also give a written note to your taluka agriculture officer and your bank, and ask about the panchanama / special girdawari (field loss survey) for your area.`,
+areaT:"Drought / dry spell — no 72-hour deadline",areaB:"This loss is usually assessed for the whole area (crop-cutting experiments), not per farmer. Make sure your PMFBY enrolment is active and your crop is recorded in e-Pik Pahani. Keep dated photos every week. Tell your agriculture assistant / talathi, and ask if your taluka is declared drought-affected or 'mid-season adversity' is notified.",
+notEnrolled:"You said you are not enrolled in PMFBY. Insurance claims may not apply, but still tell the agriculture office and talathi — state relief and panchanama may cover you. Ask about enrolment before the next season's deadline.",
+unsureNote:"Not sure about enrolment? Check with your bank (loan farmers are often enrolled) or on pmfby.gov.in, then report.",
+docList:["Aadhaar card","7/12 extract and 8A (land record)","Bank passbook (account linked to Aadhaar)","PMFBY policy or application receipt","Sowing proof / e-Pik Pahani crop entry","Tenant / sharecropper agreement (if not the owner)"],
+photoList:["Turn ON location (GPS) and date/time in your camera","1 wide shot showing the whole damaged field","2–3 close-ups of damaged plants / standing water / dry cracked soil","1 photo with a landmark, well, or survey stone","Do not edit or filter the photos. Keep the originals."],
+nextLocal:["You get a docket / acknowledgement number. Keep it safe.","A surveyor or joint team (insurance company + agriculture department) visits. Be present at your field.","They assess the % loss on your field.","Any claim is calculated by scheme rules and paid to your bank account. No fixed timeline or amount can be promised."],
+nextArea:["The state runs crop-cutting experiments in your area to measure yield.","If yield looks very low mid-season, the state may notify 'mid-season adversity' — an advance may be possible.","Any claim is calculated for the area by scheme rules and paid to the bank account.","The state may separately announce drought relief. No fixed timeline or amount can be promised."],
+crops:["Soybean","Cotton","Tur (pigeon pea)","Moong","Urad","Bajra","Jowar","Maize","Sugarcane","Onion","Gram (chana)","Wheat"],
+events:{flood:"Flood / heavy rain / waterlogging",hail:"Hailstorm",cloud:"Cloudburst / landslide",post:"Unseasonal rain on harvested crop in field",drought:"Drought / dry spell (El Niño)",pest:"Pest or disease attack"},
+mk:d=>`To: PMFBY / Crop Insurance (Helpline 14447)
+Subject: Crop loss intimation
+
+I, ${d.name}${d.mobile?` (mobile ${d.mobile})`:""}, report crop loss.
+Location: ${d.village?d.village+", ":""}${d.district}, ${d.state}${d.survey?`, survey/gat no. ${d.survey}`:""}
+Crop: ${d.crop}, area affected: ${d.acres} acres
+Cause: ${d.eventName}
+Date of event: ${d.when}
+PMFBY: ${d.pmfbyTxt}${d.policy?`, policy/application no. ${d.policy}`:""}
+
+Geo-tagged photos attached. Please register my loss and arrange a survey.
+— ${d.name}`},
+hi:{tagline:"मराठवाड़ा के किसानों के लिए फसल नुकसान दावा सहायक",s1:"आपकी जानकारी",name:"किसान का नाम",mobile:"मोबाइल नंबर",state:"राज्य",district:"जिला",other:"अन्य",
+village:"तालुका / गाँव",survey:"सर्वे / गट नंबर",crop:"फसल",acres:"प्रभावित एकड़",event:"क्या हुआ?",date:"कब हुआ?",
+pmfby:"PMFBY फसल बीमा में नामांकित हैं?",yes:"हाँ",no:"नहीं",unsure:"पता नहीं",policy:"पॉलिसी / आवेदन नंबर (अगर है)",
+submit:"मेरा दावा किट बनाएं",demo:"डेमो भरें",need:"कृपया नाम, एकड़ और तारीख भरें।",future:"तारीख भविष्य की है। कृपया जाँचें।",
+docs:"1. ये कागज़ तैयार रखें",photos:"2. फोटो कैसे लें",msg:"3. भेजने के लिए तैयार संदेश",copy:"संदेश कॉपी करें",copied:"कॉपी हुआ ✓",wa:"WhatsApp पर भेजें",
+next:"4. आगे क्या होगा",confirm:"⚠️ मुआवज़े की राशि और नियम राज्य, फसल, मौसम और साल के हिसाब से बदलते हैं। यहाँ कोई भुगतान का वादा नहीं है। कृपया अपने जिला / तालुका कृषि कार्यालय से पुष्टि करें।",
+hrs:"घंटे बीते",
+urgentT:"तुरंत — अभी नुकसान की सूचना दें",urgentB:h=>`72 घंटे में से सिर्फ़ ${h} घंटे बचे हैं। आज ही 14447 पर कॉल करें या Crop Insurance ऐप से सूचना दें। जियो-टैग फोटो अपलोड करें और डॉकेट नंबर लिख लें।`,
+lateT:"72 घंटे की समय-सीमा निकल गई है",lateB:h=>`लगभग ${h} घंटे हो गए हैं। फिर भी 14447 / Crop Insurance ऐप पर सूचना दें और पूछें कि देर की सूचना मानी जा सकती है या नहीं। तालुका कृषि अधिकारी और बैंक को लिखित में बताएं, और अपने क्षेत्र के पंचनामा / विशेष गिरदावरी (खेत नुकसान सर्वे) के बारे में पूछें।`,
+areaT:"सूखा / बारिश में लंबा अंतर — 72 घंटे की सीमा नहीं",areaB:"यह नुकसान आमतौर पर पूरे क्षेत्र के लिए (फसल कटाई प्रयोग से) आँका जाता है, हर किसान के लिए अलग नहीं। देखें कि आपका PMFBY नामांकन चालू है और फसल ई-पीक पाहणी में दर्ज है। हर हफ़्ते तारीख वाली फोटो रखें। कृषि सहायक / तलाठी को बताएं, और पूछें कि आपका तालुका सूखाग्रस्त घोषित हुआ है या 'मध्य-मौसम प्रतिकूलता' अधिसूचित हुई है।",
+notEnrolled:"आपने बताया कि PMFBY में नामांकन नहीं है। बीमा दावा शायद लागू न हो, फिर भी कृषि कार्यालय और तलाठी को बताएं — राज्य राहत और पंचनामा मिल सकता है। अगले मौसम की अंतिम तारीख से पहले नामांकन के बारे में पूछें।",
+unsureNote:"नामांकन पता नहीं? अपने बैंक से पूछें (कर्ज़ लेने वाले किसान अक्सर नामांकित होते हैं) या pmfby.gov.in पर देखें, फिर सूचना दें।",
+docList:["आधार कार्ड","7/12 उतारा और 8A (ज़मीन का रिकॉर्ड)","बैंक पासबुक (आधार से जुड़ा खाता)","PMFBY पॉलिसी या आवेदन रसीद","बुवाई का प्रमाण / ई-पीक पाहणी एंट्री","बटाई / किराया समझौता (अगर मालिक नहीं हैं)"],
+photoList:["कैमरे में लोकेशन (GPS) और तारीख/समय चालू करें","पूरे खेत की 1 दूर से फोटो","खराब पौधों / भरे पानी / सूखी फटी ज़मीन की 2–3 पास से फोटो","कुआँ, पेड़ या सर्वे पत्थर के साथ 1 फोटो","फोटो एडिट या फ़िल्टर न करें। असली फोटो संभाल कर रखें।"],
+nextLocal:["आपको डॉकेट / पावती नंबर मिलेगा। संभाल कर रखें।","सर्वेयर या संयुक्त टीम (बीमा कंपनी + कृषि विभाग) आएगी। खेत पर मौजूद रहें।","वे आपके खेत का % नुकसान आँकेंगे।","दावा योजना के नियमों से तय होकर बैंक खाते में आता है। समय या राशि का वादा नहीं किया जा सकता।"],
+nextArea:["राज्य आपके क्षेत्र में उपज मापने के लिए फसल कटाई प्रयोग करता है।","अगर बीच मौसम में उपज बहुत कम दिखे, तो राज्य 'मध्य-मौसम प्रतिकूलता' घोषित कर सकता है — अग्रिम राशि संभव हो सकती है।","दावा पूरे क्षेत्र के लिए नियमों से तय होकर बैंक खाते में आता है।","राज्य अलग से सूखा राहत घोषित कर सकता है। समय या राशि का वादा नहीं किया जा सकता।"],
+crops:["सोयाबीन","कपास","तुअर","मूंग","उड़द","बाजरा","ज्वार","मक्का","गन्ना","प्याज़","चना","गेहूँ"],
+events:{flood:"बाढ़ / भारी बारिश / जलभराव",hail:"ओलावृष्टि",cloud:"बादल फटना / भूस्खलन",post:"कटाई के बाद खेत में पड़ी फसल पर बेमौसम बारिश",drought:"सूखा / बारिश में लंबा अंतर (अल नीनो)",pest:"कीट या रोग"},
+mk:d=>`प्रति: PMFBY / फसल बीमा (हेल्पलाइन 14447)
+विषय: फसल नुकसान की सूचना
+
+मैं, ${d.name}${d.mobile?` (मोबाइल ${d.mobile})`:""}, फसल नुकसान की सूचना देता/देती हूँ।
+स्थान: ${d.village?d.village+", ":""}${d.district}, ${d.state}${d.survey?`, सर्वे/गट नं. ${d.survey}`:""}
+फसल: ${d.crop}, प्रभावित क्षेत्र: ${d.acres} एकड़
+कारण: ${d.eventName}
+घटना की तारीख: ${d.when}
+PMFBY: ${d.pmfbyTxt}${d.policy?`, पॉलिसी/आवेदन नं. ${d.policy}`:""}
+
+जियो-टैग फोटो साथ में हैं। कृपया मेरा नुकसान दर्ज करें और सर्वे करवाएं।
+— ${d.name}`},
+mr:{tagline:"मराठवाड्यातील शेतकऱ्यांसाठी पीक नुकसान दावा सहाय्यक",s1:"तुमची माहिती",name:"शेतकऱ्याचे नाव",mobile:"मोबाईल नंबर",state:"राज्य",district:"जिल्हा",other:"इतर",
+village:"तालुका / गाव",survey:"सर्वे / गट नंबर",crop:"पीक",acres:"बाधित एकर",event:"काय झाले?",date:"कधी झाले?",
+pmfby:"PMFBY पीक विम्यात नोंदणी आहे का?",yes:"हो",no:"नाही",unsure:"माहीत नाही",policy:"पॉलिसी / अर्ज क्रमांक (असल्यास)",
+submit:"माझे दावा किट बनवा",demo:"डेमो भरा",need:"कृपया नाव, एकर आणि तारीख भरा.",future:"तारीख भविष्यातील आहे. कृपया तपासा.",
+docs:"1. ही कागदपत्रे तयार ठेवा",photos:"2. फोटो कसे काढायचे",msg:"3. पाठवण्यासाठी तयार संदेश",copy:"संदेश कॉपी करा",copied:"कॉपी झाले ✓",wa:"WhatsApp वर पाठवा",
+next:"4. पुढे काय होईल",confirm:"⚠️ भरपाईची रक्कम आणि नियम राज्य, पीक, हंगाम आणि वर्षानुसार बदलतात. येथे कोणत्याही रकमेचे आश्वासन नाही. कृपया तुमच्या जिल्हा / तालुका कृषी कार्यालयाकडून खात्री करा.",
+hrs:"तास झाले",
+urgentT:"तातडीचे — आत्ताच नुकसानाची सूचना द्या",urgentB:h=>`72 तासांपैकी फक्त ${h} तास उरले आहेत. आजच 14447 वर कॉल करा किंवा Crop Insurance ॲपवर सूचना द्या. जिओ-टॅग फोटो अपलोड करा आणि डॉकेट नंबर लिहून ठेवा.`,
+lateT:"72 तासांची मुदत संपली आहे",lateB:h=>`सुमारे ${h} तास झाले आहेत. तरीही 14447 / Crop Insurance ॲपवर सूचना द्या आणि उशिरा सूचना स्वीकारली जाईल का ते विचारा. तालुका कृषी अधिकारी आणि बँकेला लेखी कळवा, आणि तुमच्या भागातील पंचनामा / विशेष गिरदावरी (शेत नुकसान पाहणी) बद्दल विचारा.`,
+areaT:"दुष्काळ / पावसाचा खंड — 72 तासांची मुदत लागू नाही",areaB:"हे नुकसान सहसा संपूर्ण भागासाठी (पीक कापणी प्रयोगाद्वारे) ठरवले जाते, प्रत्येक शेतकऱ्यासाठी वेगळे नाही. तुमची PMFBY नोंदणी चालू आहे आणि पीक ई-पीक पाहणीमध्ये नोंदले आहे याची खात्री करा. दर आठवड्याला तारखेसह फोटो ठेवा. कृषी सहाय्यक / तलाठ्यांना कळवा, आणि तुमचा तालुका दुष्काळग्रस्त जाहीर झाला आहे का किंवा 'हंगामातील प्रतिकूल परिस्थिती' अधिसूचित झाली आहे का ते विचारा.",
+notEnrolled:"तुम्ही PMFBY मध्ये नोंदणी नाही असे सांगितले. विमा दावा कदाचित लागू होणार नाही, तरीही कृषी कार्यालय आणि तलाठ्यांना कळवा — राज्य मदत आणि पंचनामा मिळू शकतो. पुढील हंगामाच्या अंतिम तारखेपूर्वी नोंदणीबद्दल विचारा.",
+unsureNote:"नोंदणी माहीत नाही? तुमच्या बँकेत विचारा (कर्जदार शेतकरी बहुतेक वेळा नोंदणीकृत असतात) किंवा pmfby.gov.in वर तपासा, मग सूचना द्या.",
+docList:["आधार कार्ड","7/12 उतारा आणि 8अ (जमिनीचा दाखला)","बँक पासबुक (आधारशी जोडलेले खाते)","PMFBY पॉलिसी किंवा अर्जाची पावती","पेरणीचा पुरावा / ई-पीक पाहणी नोंद","बटाई / भाडेकरार (मालक नसल्यास)"],
+photoList:["कॅमेऱ्यात लोकेशन (GPS) आणि तारीख/वेळ चालू करा","संपूर्ण शेताचा 1 लांबून फोटो","खराब झाडे / साचलेले पाणी / भेगा पडलेली कोरडी जमीन यांचे 2–3 जवळून फोटो","विहीर, झाड किंवा सर्वे दगडासोबत 1 फोटो","फोटो एडिट किंवा फिल्टर करू नका. मूळ फोटो जपून ठेवा."],
+nextLocal:["तुम्हाला डॉकेट / पोच क्रमांक मिळेल. तो जपून ठेवा.","सर्वेक्षक किंवा संयुक्त पथक (विमा कंपनी + कृषी विभाग) येईल. शेतावर हजर रहा.","ते तुमच्या शेताचे % नुकसान ठरवतील.","दावा योजनेच्या नियमांनुसार ठरून बँक खात्यात येतो. वेळ किंवा रकमेचे आश्वासन देता येत नाही."],
+nextArea:["राज्य तुमच्या भागात उत्पादन मोजण्यासाठी पीक कापणी प्रयोग करते.","हंगामाच्या मध्यात उत्पादन खूप कमी दिसल्यास राज्य 'हंगामातील प्रतिकूल परिस्थिती' जाहीर करू शकते — आगाऊ रक्कम शक्य असू शकते.","दावा संपूर्ण भागासाठी नियमांनुसार ठरून बँक खात्यात येतो.","राज्य स्वतंत्रपणे दुष्काळ मदत जाहीर करू शकते. वेळ किंवा रकमेचे आश्वासन देता येत नाही."],
+crops:["सोयाबीन","कापूस","तूर","मूग","उडीद","बाजरी","ज्वारी","मका","ऊस","कांदा","हरभरा","गहू"],
+events:{flood:"पूर / अतिवृष्टी / पाणी साचणे",hail:"गारपीट",cloud:"ढगफुटी / भूस्खलन",post:"काढणीनंतर शेतात ठेवलेल्या पिकावर अवकाळी पाऊस",drought:"दुष्काळ / पावसाचा खंड (एल निनो)",pest:"कीड किंवा रोग"},
+mk:d=>`प्रति: PMFBY / पीक विमा (हेल्पलाइन 14447)
+विषय: पीक नुकसानाची सूचना
+
+मी, ${d.name}${d.mobile?` (मोबाईल ${d.mobile})`:""}, पीक नुकसानाची सूचना देत आहे.
+ठिकाण: ${d.village?d.village+", ":""}${d.district}, ${d.state}${d.survey?`, सर्वे/गट क्र. ${d.survey}`:""}
+पीक: ${d.crop}, बाधित क्षेत्र: ${d.acres} एकर
+कारण: ${d.eventName}
+घटनेची तारीख: ${d.when}
+PMFBY: ${d.pmfbyTxt}${d.policy?`, पॉलिसी/अर्ज क्र. ${d.policy}`:""}
+
+जिओ-टॅग फोटो सोबत आहेत. कृपया माझे नुकसान नोंदवा आणि पाहणी करा.
+— ${d.name}`}
+};
+const LOCAL = ["flood","hail","cloud","post"]; // 72-hour individual intimation
+const $ = id => document.getElementById(id);
+let lang = "mr";
+try { lang = localStorage.getItem("ks-lang") || "mr"; } catch(e) {}
+
+function setLang(l){
+  lang = l; document.documentElement.lang = l;
+  try { localStorage.setItem("ks-lang", l); } catch(e) {}
+  const t = T[l];
+  document.querySelectorAll("[data-t]").forEach(el => { el.textContent = t[el.dataset.t]; });
+  document.querySelectorAll(".langs button").forEach(b => b.classList.toggle("on", b.dataset.lang === l));
+  const ci = $("crop").selectedIndex, ev = $("event").value;
+  $("crop").innerHTML = t.crops.map((c,i) => `<option value="${i}">${c}</option>`).join("");
+  $("crop").selectedIndex = ci < 0 ? 0 : ci;
+  $("event").innerHTML = Object.entries(t.events).map(([k,v]) => `<option value="${k}">${v}</option>`).join("");
+  if (ev) $("event").value = ev;
+  if (!$("out").classList.contains("hidden")) build();
+}
+document.querySelectorAll(".langs button").forEach(b => b.onclick = () => setLang(b.dataset.lang));
+
+const esc = s => s.replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const list = (id, arr, check) => $(id).innerHTML = arr.map(x => check ? `<li><label><input type="checkbox"> ${esc(x)}</label></li>` : `<li>${esc(x)}</li>`).join("");
+
+function build(){
+  const t = T[lang];
+  const name = $("name").value.trim(), acres = $("acres").value, dv = $("date").value;
+  $("err").textContent = "";
+  if (!name || !acres || !dv) { $("err").textContent = t.need; return; }
+  const when = new Date(dv), hours = Math.floor((Date.now() - when) / 36e5);
+  if (hours < 0) { $("err").textContent = t.future; return; }
+  const ev = $("event").value, pm = $("pmfby").value, local = LOCAL.includes(ev);
+  const dist = $("district").value === "other" ? t.other : $("district").value;
+
+  let cls, title, body;
+  if (!local) { cls = "area"; title = t.areaT; body = t.areaB; }
+  else if (hours < 72) { cls = "urgent"; title = t.urgentT; body = t.urgentB(72 - hours); }
+  else { cls = "late"; title = t.lateT; body = t.lateB(hours); }
+  let extra = pm === "no" ? t.notEnrolled : pm === "unsure" ? t.unsureNote : "";
+  $("banner").className = "banner " + cls;
+  $("banner").innerHTML = `<b>${esc(title)}</b>${local ? `<div>⏱ ${hours} ${esc(t.hrs)}</div>` : ""}<div>${esc(body)}</div>${extra ? `<p style="margin:8px 0 0">${esc(extra)}</p>` : ""}`;
+
+  list("docs", t.docList, true);
+  list("photos", t.photoList);
+  list("next", local ? t.nextLocal : t.nextArea);
+
+  const msg = t.mk({ name, mobile: $("mobile").value.trim(), state: $("state").value.trim(), district: dist,
+    village: $("village").value.trim(), survey: $("survey").value.trim(), crop: t.crops[$("crop").value], acres,
+    eventName: t.events[ev], when: when.toLocaleString(lang === "en" ? "en-IN" : lang + "-IN"),
+    pmfbyTxt: t[pm], policy: $("policy").value.trim() });
+  $("msg").textContent = msg;
+  $("wa").href = "https://wa.me/?text=" + encodeURIComponent(msg);
+  $("out").classList.remove("hidden");
+}
+
+$("f").onsubmit = e => { e.preventDefault(); build(); if (!$("out").classList.contains("hidden")) $("out").scrollIntoView({behavior:"smooth"}); };
+$("copy").onclick = async () => {
+  try { await navigator.clipboard.writeText($("msg").textContent); } catch(e) {
+    const r = document.createRange(); r.selectNodeContents($("msg")); getSelection().removeAllRanges(); getSelection().addRange(r); document.execCommand("copy"); }
+  $("copy").textContent = T[lang].copied; setTimeout(() => $("copy").textContent = T[lang].copy, 1500);
+};
+$("demo").onclick = () => {
+  const d = new Date(Date.now() - 20 * 36e5); d.setMinutes(d.getMinutes() - d.getTimezoneOffset());
+  $("name").value = "Sunita Jadhav"; $("mobile").value = "9876543210"; $("district").value = "Latur";
+  $("village").value = "Ausa"; $("survey").value = "142/2"; $("crop").value = "2"; $("acres").value = "2";
+  $("event").value = "flood"; $("date").value = d.toISOString().slice(0,16); $("pmfby").value = "yes"; $("policy").value = "";
+};
+setLang(lang);
+</script>
+</body>
+</html>
