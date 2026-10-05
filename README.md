@@ -2,6 +2,13 @@
 
 **A crop-loss claim assistant for Marathwada farmers, built with Genspark Super Agent at Genspark Pune Meetup (4 Oct 2026).**
 
+| | |
+|---|---|
+| **Team** | Team Turtle |
+| **Team Lead** | Prasad Dhanade |
+| **Live demo** | https://prasadxa.github.io/kisan-saathi/ |
+| **Submission** | [Genspark Pune community post](https://www.gensparkcommunity.com/en-us/Genspark-Pune/post/kisan-saathi---crop-loss-claim-assistant-for-marathwada-farmers-mwFUc8NnN33UINI) |
+
 ## Problem
 
 El Niño dry spells, water shortage and sudden heavy rain keep hitting farmers in Marathwada,
@@ -32,11 +39,11 @@ Kisan Saathi turns "my crop is gone" into a ready claim kit in under a minute, i
 |---|---|
 | [`GENSPARK_SUPER_AGENT_PROMPT.md`](GENSPARK_SUPER_AGENT_PROMPT.md) | The Kisan Saathi prompt for Genspark Super Agent, test inputs, and 2-minute pitch |
 | [`index.html`](index.html) | Offline web app — one file, no server, no API key. Open it in any browser. |
-| [`screenshots/`](screenshots) | Demo screenshots: the app (Marathi drought case) and Genspark Super Agent (Hindi flood URGENT case) |
+| [`screenshots/`](screenshots) | Screenshots: the app (Marathi drought case), Genspark Super Agent (Hindi flood URGENT case), and the community submission |
 
 ## Run it
 
-Open `index.html` in a browser and click **डेमो भरा / Fill demo** → **Make my claim kit**.
+Open the [live demo](https://prasadxa.github.io/kisan-saathi/) or `index.html` in a browser and click **डेमो भरा / Fill demo** → **Make my claim kit**.
 
 ## Built with Genspark Super Agent
 
